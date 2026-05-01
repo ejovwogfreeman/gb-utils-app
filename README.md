@@ -1,50 +1,73 @@
-# Welcome to your Expo app 👋
+# 📱 Utility App (React Native)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A simple, fast, and fully offline utility application built with React Native.  
+This app combines essential everyday tools into one place while keeping your data private and stored locally on your device.
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Features
 
-   ```bash
-   npm install
-   ```
+### ⏰ Current Time & Date
 
-2. Start the app
+- Displays real-time date and time
+- Automatically updates every second
 
-   ```bash
-   npx expo start
-   ```
+### ✅ Task Manager
 
-In the output, you'll find options to open the app in a
+- Add tasks using a modal interface
+- Mark tasks as complete
+- Delete tasks
+- Search tasks instantly
+- Clean and minimal UI
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 💰 Expense Tracker
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Add and manage transactions
+- Track:
+  - Balance (🔵)
+  - Income (🟢)
+  - Expenses (🔴)
+- Search transactions
+- Delete transactions
+- Simple financial overview
 
-## Get a fresh project
+### 🧮 Scientific Calculator
 
-When you're ready, run:
+- Supports:
+  - Basic operations (+, -, ×, ÷)
+  - Trigonometry (sin, cos, tan)
+  - Logarithms and square root
+  - Constants (π, e)
+- DEG/RAD toggle mode
+- Clean and responsive layout
 
-```bash
-npm run reset-project
-```
+### 🔒 Privacy Page
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- Transparent privacy policy
+- Confirms:
+  - No data collection
+  - No tracking
+  - No external servers
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+## 🔐 Data & Storage
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- All data is stored locally using **AsyncStorage**
+- No backend or database is used
+- No internet connection required
+- Your data never leaves your device
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🛠️ Tech Stack
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- React Native (Expo)
+- TypeScript
+- AsyncStorage
+- Expo Vector Icons
+- React Native Safe Area Context
+
+---
+
+## 📂 Project Structure (Simplified)

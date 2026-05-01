@@ -1,98 +1,173 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useState } from "react";
+import { ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import styles from "../styles/styles";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+type Task = {
+  id: string;
+  text: string;
+  completed: boolean;
+};
 
-export default function HomeScreen() {
+type Expense = {
+  id: string | number;
+  title: string;
+  amount: number;
+};
+
+export default function Home() {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [time, setTime] = useState(new Date());
+
+  const loadData = async () => {
+    try {
+      const storedTasks = await AsyncStorage.getItem("tasks");
+      const storedExpenses = await AsyncStorage.getItem("expenses");
+
+      setTasks(storedTasks ? JSON.parse(storedTasks) : []);
+      setExpenses(storedExpenses ? JSON.parse(storedExpenses) : []);
+    } catch (e) {
+      console.log("Error loading data");
+    }
+  };
+
+  // ✅ Refresh whenever screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+
+      const interval = setInterval(() => {
+        setTime(new Date());
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }, []),
+  );
+
+  const totalExpenses = expenses.reduce(
+    (sum, item) => sum + Number(item.amount || 0),
+    0,
+  );
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        {/* Header */}
+        <Text style={styles.greeting}>Hello User👋</Text>
+        <Text style={styles.subGreeting}>Welcome back</Text>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        {/* Time Card */}
+        <View style={styles.timeCard}>
+          <Ionicons name="time" size={22} color="#00b4d8" />
+          <Text style={styles.date}>{time.toDateString()}</Text>
+          <Text style={styles.clock}>{time.toLocaleTimeString()}</Text>
+        </View>
+
+        {/* Tasks Card */}
+        <View style={styles.card}>
+          <View style={styles.row}>
+            <Ionicons name="checkbox" size={22} color="#00b4d8" />
+            <Text style={styles.cardTitle}>Your Tasks</Text>
+          </View>
+
+          <Text style={styles.cardValue}>{tasks.length.toLocaleString()}</Text>
+
+          <Text style={styles.cardSub}>Total tasks saved</Text>
+        </View>
+
+        {/* Expenses Card */}
+        <View style={styles.card}>
+          <View style={styles.row}>
+            <Ionicons name="wallet" size={22} color="#00b4d8" />
+            <Text style={styles.cardTitle}>Your Balance</Text>
+          </View>
+
+          <Text style={styles.cardValue}>
+            ₦{totalExpenses.toLocaleString()}
+          </Text>
+
+          <Text style={styles.cardSub}>All recorded spending</Text>
+        </View>
+
+        {/* Recent Tasks */}
+        <View style={styles.previewCard}>
+          <View style={[styles.row, { marginBottom: 20 }]}>
+            <Ionicons name="list" size={18} color="#00b4d8" />
+            <Text style={styles.previewTitle}>Recent Tasks</Text>
+          </View>
+
+          {tasks.length === 0 ? (
+            <Text style={styles.previewText}>No tasks yet</Text>
+          ) : (
+            [...tasks].slice(0, 3).map((item) => (
+              <View
+                key={item.id}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                  padding: 15,
+                  borderRadius: 12,
+                  marginBottom: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: item.completed ? "#00b4d8" : "#fff",
+                    textDecorationLine: item.completed
+                      ? "line-through"
+                      : "none",
+                  }}
+                >
+                  {item.text}
+                </Text>
+              </View>
+            ))
+          )}
+        </View>
+
+        {/* Recent Expenses */}
+        <View style={styles.previewCard}>
+          <View style={[styles.row, { marginBottom: 20 }]}>
+            <Ionicons name="cash" size={18} color="#00b4d8" />
+            <Text style={styles.previewTitle}>Recent Expenses</Text>
+          </View>
+
+          {expenses.length === 0 ? (
+            <Text style={styles.previewText}>No expenses yet</Text>
+          ) : (
+            [...expenses].slice(0, 3).map((item) => (
+              <View
+                key={item.id}
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  padding: 15,
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                  borderRadius: 10,
+                  marginBottom: 10,
+                }}
+              >
+                <View>
+                  <Text style={{ color: "#fff" }}>{item.title}</Text>
+                  <Text
+                    style={{
+                      color: item.amount < 0 ? "#ff595e" : "#22c55e",
+                    }}
+                  >
+                    ₦{Math.abs(item.amount).toLocaleString()}
+                  </Text>
+                </View>
+              </View>
+            ))
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});

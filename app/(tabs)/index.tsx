@@ -135,11 +135,11 @@ export default function Home() {
         <View style={styles.previewCard}>
           <View style={[styles.row, { marginBottom: 20 }]}>
             <Ionicons name="cash" size={18} color="#00b4d8" />
-            <Text style={styles.previewTitle}>Recent Expenses</Text>
+            <Text style={styles.previewTitle}>Recent Transactions</Text>
           </View>
 
           {expenses.length === 0 ? (
-            <Text style={styles.previewText}>No expenses yet</Text>
+            <Text style={styles.previewText}>No transactions yet</Text>
           ) : (
             [...expenses].slice(0, 3).map((item) => (
               <View

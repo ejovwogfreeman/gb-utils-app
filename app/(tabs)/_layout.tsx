@@ -23,7 +23,7 @@ export default function TabsLayout() {
 
           if (route.name === "index") icon = "home";
           else if (route.name === "tasks") icon = "checkbox";
-          else if (route.name === "expenses") icon = "wallet";
+          else if (route.name === "transactions") icon = "wallet";
           else if (route.name === "calculator") icon = "calculator";
           else if (route.name === "privacy") icon = "shield-checkmark";
 
@@ -33,7 +33,7 @@ export default function TabsLayout() {
     >
       <Tabs.Screen name="index" options={{ title: "Home" }} />
       <Tabs.Screen name="tasks" options={{ title: "Tasks" }} />
-      <Tabs.Screen name="expenses" options={{ title: "Expenses" }} />
+      <Tabs.Screen name="transactions" options={{ title: "Transactions" }} />
       <Tabs.Screen name="calculator" options={{ title: "Calculator" }} />
       <Tabs.Screen name="privacy" options={{ title: "Privacy" }} />
     </Tabs>

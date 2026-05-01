@@ -19,7 +19,7 @@ type Expense = {
   amount: number;
 };
 
-export default function Expenses() {
+export default function Transactions() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
 

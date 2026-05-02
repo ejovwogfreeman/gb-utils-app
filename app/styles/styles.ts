@@ -18,7 +18,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  subGreeting: {
+  subGreeting1: {
+    fontSize: 20,
+    color: "#ccc",
+    fontWeight: "bold",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+
+  subGreeting2: {
     color: "#ccc",
     marginBottom: 20,
   },

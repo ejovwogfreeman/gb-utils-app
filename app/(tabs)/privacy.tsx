@@ -15,7 +15,7 @@ export default function Privacy() {
           Privacy Policy{" "}
           <Ionicons name="shield-checkmark" size={28} color="#00b4d8" />
         </Text>
-        <Text style={styles.subGreeting}>
+        <Text style={styles.subGreeting2}>
           Your privacy matters. Here’s how this app handles your data.
         </Text>
 

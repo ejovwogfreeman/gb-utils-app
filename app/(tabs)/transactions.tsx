@@ -13,14 +13,14 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../styles/styles";
 
-type Expense = {
+type Transactions = {
   id: string;
   title: string;
   amount: number;
 };
 
 export default function Transactions() {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [transactions, setTransactions] = useState<Transactions[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [title, setTitle] = useState("");
@@ -31,32 +31,32 @@ export default function Transactions() {
   const [type, setType] = useState<"income" | "expense">("income");
 
   useEffect(() => {
-    loadExpenses();
+    loadTransactions();
   }, []);
 
-  const loadExpenses = async () => {
-    const data = await AsyncStorage.getItem("expenses");
-    if (data) setExpenses(JSON.parse(data));
+  const loadTransactions = async () => {
+    const data = await AsyncStorage.getItem("transactions");
+    if (data) setTransactions(JSON.parse(data));
   };
 
-  const saveExpenses = async (items: Expense[]) => {
-    setExpenses(items);
-    await AsyncStorage.setItem("expenses", JSON.stringify(items));
+  const saveTransactions = async (items: Transactions[]) => {
+    setTransactions(items);
+    await AsyncStorage.setItem("transactions", JSON.stringify(items));
   };
 
   // ✅ FIXED: now respects income/expense type
-  const addExpense = () => {
+  const addTransaction = () => {
     if (!title.trim() || !amount.trim()) return;
 
     const value = Math.abs(Number(amount));
 
-    const newExpense: Expense = {
+    const newTransactions: Transactions = {
       id: Date.now().toString(),
       title,
       amount: type === "income" ? value : -value, // income positive, expense negative
     };
 
-    saveExpenses([newExpense, ...expenses]);
+    saveTransactions([newTransactions, ...transactions]);
 
     setTitle("");
     setAmount("");
@@ -64,26 +64,26 @@ export default function Transactions() {
     setModalVisible(false);
   };
 
-  const deleteExpense = (id: string) => {
-    saveExpenses(expenses.filter((e) => e.id !== id));
+  const deleteTransaction = (id: string) => {
+    saveTransactions(transactions.filter((e) => e.id !== id));
   };
 
   const filtered = useMemo(() => {
-    return expenses.filter((e) =>
+    return transactions.filter((e) =>
       e.title.toLowerCase().includes(search.toLowerCase()),
     );
-  }, [search, expenses]);
+  }, [search, transactions]);
 
   // ✅ FIX: income should be calculated, not hardcoded
   const income = filtered
     .filter((e) => e.amount > 0)
     .reduce((a, b) => a + b.amount, 0);
 
-  const expenseTotal = filtered
+  const expense = filtered
     .filter((e) => e.amount < 0)
     .reduce((a, b) => a + Math.abs(b.amount), 0);
 
-  const balance = income - expenseTotal;
+  const balance = income - expense;
 
   return (
     <SafeAreaView style={styles.safe} edges={[]}>
@@ -91,7 +91,7 @@ export default function Transactions() {
         <Text style={styles.greeting}>
           Expense Tracker <Ionicons name="wallet" size={28} color="#00b4d8" />
         </Text>
-        <Text style={styles.subGreeting}>Track your money flow</Text>
+        <Text style={styles.subGreeting2}>Track your money flow</Text>
 
         {/* SEARCH */}
         <View
@@ -144,7 +144,7 @@ export default function Transactions() {
             <Ionicons name="arrow-up" size={18} color="#ff595e" />
             <Text style={{ color: "#ff595e" }}>Expense</Text>
             <Text style={{ color: "#ff595e", fontWeight: "bold" }}>
-              ₦{expenseTotal.toLocaleString()}
+              ₦{expense.toLocaleString()}
             </Text>
           </View>
         </View>
@@ -193,7 +193,7 @@ export default function Transactions() {
                 </Text>
               </View>
 
-              <TouchableOpacity onPress={() => deleteExpense(item.id)}>
+              <TouchableOpacity onPress={() => deleteTransaction(item.id)}>
                 <Ionicons name="trash" size={20} color="#ff595e" />
               </TouchableOpacity>
             </View>
@@ -285,7 +285,7 @@ export default function Transactions() {
                 </Pressable>
 
                 <Pressable
-                  onPress={addExpense} // ✅ FIXED (was addTask)
+                  onPress={addTransaction} // ✅ FIXED (was addTask)
                   style={[styles.btn, { backgroundColor: "#00b4d8" }]}
                 >
                   <Text style={{ textAlign: "center", color: "#000" }}>

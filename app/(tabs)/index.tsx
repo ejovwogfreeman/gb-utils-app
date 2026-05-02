@@ -12,7 +12,7 @@ type Task = {
   completed: boolean;
 };
 
-type Expense = {
+type Transactions = {
   id: string | number;
   title: string;
   amount: number;
@@ -20,16 +20,16 @@ type Expense = {
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [transactions, setTransactions] = useState<Transactions[]>([]);
   const [time, setTime] = useState(new Date());
 
   const loadData = async () => {
     try {
       const storedTasks = await AsyncStorage.getItem("tasks");
-      const storedExpenses = await AsyncStorage.getItem("expenses");
+      const storedTransactions = await AsyncStorage.getItem("transactions");
 
       setTasks(storedTasks ? JSON.parse(storedTasks) : []);
-      setExpenses(storedExpenses ? JSON.parse(storedExpenses) : []);
+      setTransactions(storedTransactions ? JSON.parse(storedTransactions) : []);
     } catch (e) {
       console.log("Error loading data");
     }
@@ -48,17 +48,46 @@ export default function Home() {
     }, []),
   );
 
-  const totalExpenses = expenses.reduce(
+  const balance = transactions.reduce(
     (sum, item) => sum + Number(item.amount || 0),
     0,
   );
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+
+    if (hour >= 5 && hour < 12) {
+      return {
+        greeting: "Good Morning ☀️",
+        quote: "Start your day with focus and intention.",
+      };
+    } else if (hour >= 12 && hour < 17) {
+      return {
+        greeting: "Good Afternoon 🌤️",
+        quote: "Keep pushing, you're doing great.",
+      };
+    } else if (hour >= 17 && hour < 21) {
+      return {
+        greeting: "Good Evening 🌆",
+        quote: "Reflect on your wins today, no matter how small.",
+      };
+    } else {
+      return {
+        greeting: "Good Night 🌙",
+        quote: "Rest well and recharge for tomorrow.",
+      };
+    }
+  };
+
+  const { greeting, quote } = getGreeting();
 
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {/* Header */}
-        <Text style={styles.greeting}>Hello User👋</Text>
-        <Text style={styles.subGreeting}>Welcome back</Text>
+        <Text style={styles.greeting}>Hello Champ👋!</Text>
+        <Text style={styles.subGreeting1}>{greeting}</Text>
+        <Text style={styles.subGreeting2}>{quote}</Text>
 
         {/* Time Card */}
         <View style={styles.timeCard}>
@@ -86,11 +115,9 @@ export default function Home() {
             <Text style={styles.cardTitle}>Your Balance</Text>
           </View>
 
-          <Text style={styles.cardValue}>
-            ₦{totalExpenses.toLocaleString()}
-          </Text>
+          <Text style={styles.cardValue}>₦{balance.toLocaleString()}</Text>
 
-          <Text style={styles.cardSub}>All recorded spending</Text>
+          <Text style={styles.cardSub}>Your current balance</Text>
         </View>
 
         {/* Recent Tasks */}
@@ -138,10 +165,10 @@ export default function Home() {
             <Text style={styles.previewTitle}>Recent Transactions</Text>
           </View>
 
-          {expenses.length === 0 ? (
+          {transactions.length === 0 ? (
             <Text style={styles.previewText}>No transactions yet</Text>
           ) : (
-            [...expenses].slice(0, 3).map((item) => (
+            [...transactions].slice(0, 3).map((item) => (
               <View
                 key={item.id}
                 style={{

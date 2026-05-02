@@ -27,12 +27,6 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      [
-        "expo-adi-registration",
-        {
-          "token": "D2S47WUMUCFKMAAAAAAAAAAAAA"
-        }
-      ],
       "expo-router",
       [
         "expo-splash-screen",

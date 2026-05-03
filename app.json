@@ -20,7 +20,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.ejovwogfreeman.gbutilsapp"
+      "package": "com.ejovwogfreeman.gbutilsapp",
+      "versionCode": 5
     },
     "web": {
       "output": "static",

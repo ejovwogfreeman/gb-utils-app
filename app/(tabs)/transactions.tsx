@@ -91,7 +91,7 @@ export default function Transactions() {
         <Text style={styles.greeting}>
           Expense Tracker <Ionicons name="wallet" size={28} color="#00b4d8" />
         </Text>
-        <Text style={styles.subGreeting2}>Track your money flow</Text>
+        <Text style={styles.subGreeting}>Track your money flow</Text>
 
         {/* SEARCH */}
         <View

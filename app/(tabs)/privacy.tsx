@@ -15,7 +15,7 @@ export default function Privacy() {
           Privacy Policy{" "}
           <Ionicons name="shield-checkmark" size={28} color="#00b4d8" />
         </Text>
-        <Text style={styles.subGreeting2}>
+        <Text style={styles.subGreeting}>
           Your privacy matters. Here’s how this app handles your data.
         </Text>
 
@@ -30,8 +30,8 @@ export default function Privacy() {
         <View style={styles.card}>
           <Text style={styles.cardTitle}>2. Local Storage Only</Text>
           <Text style={styles.previewText}>
-            All your data (tasks and expenses) are stored locally on your device
-            using secure storage methods like AsyncStorage.
+            All your data (tasks and transactions) are stored locally on your
+            device using secure storage methods like AsyncStorage.
           </Text>
         </View>
 

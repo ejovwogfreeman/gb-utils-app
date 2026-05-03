@@ -86,8 +86,8 @@ export default function Home() {
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <Text style={styles.greeting}>Hello Champ👋!</Text>
-        <Text style={styles.subGreeting1}>{greeting}</Text>
-        <Text style={styles.subGreeting2}>{quote}</Text>
+        <Text style={styles.timeGreeting}>{greeting}</Text>
+        <Text style={styles.subGreeting}>{quote}</Text>
 
         {/* Time Card */}
         <View style={styles.timeCard}>

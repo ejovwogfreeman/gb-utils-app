@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "gb-utils-app",
+    "name": "GB Utils App",
     "slug": "gb-utils-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,7 +20,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.ejovwogfreeman.globalprimalmarket"
+      "package": "com.ejovwogfreeman.gbutilsapp"
     },
     "web": {
       "output": "static",

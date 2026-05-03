@@ -79,7 +79,7 @@ export default function Tasks() {
         <Text style={styles.greeting}>
           Task Tracker <Ionicons name="checkbox" size={28} color="#00b4d8" />
         </Text>
-        <Text style={styles.subGreeting}>Manage your daily goals</Text>
+        <Text style={styles.subGreeting}>Manage your daily goals.</Text>
 
         {/* SEARCH */}
         <View

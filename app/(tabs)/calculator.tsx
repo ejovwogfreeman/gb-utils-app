@@ -36,7 +36,7 @@ export default function Calculator() {
 
   const formatResult = (value: number) => {
     const rounded = Number(value.toFixed(12));
-    return rounded.toString().replace(/\.?0+$/, "");
+    return rounded.toString();
   };
 
   const handleCalculate = () => {
